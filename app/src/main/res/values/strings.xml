@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Harazh</string>
+    <string name="title_activity_tela_inicial1">tela_inicial_1</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="modelo_obrigatorio">Modelo é de preenchimento obrigatório!</string>
+    <string name="placa_obrigatorio">Placa é de preenchimento obrigatório!</string>
+    <string name="ano_obrigatorio">Ano é de preenchimento obrigatório!</string>
+    <string name="placa_cadastrada">já foi cadastrada!</string>
+    <string name="registro_salvo">Carro cadastrado!</string>
+</resources>

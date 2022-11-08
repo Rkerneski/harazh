@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:descendantFocusability="beforeDescendants">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/card_background"
+            android:descendantFocusability="afterDescendants">
+
+            <TextView
+                android:id="@+id/line2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Text line 2"
+                android:textColor="#03A9F4"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/line3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Text line 3"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/line4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Text line 4"
+                android:textSize="16sp" />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--<Button
+                    android:id="@+id/buttonExcluir"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/buttonEditar"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="29dp"
+                    android:layout_marginRight="29dp"
+                    android:layout_toLeftOf="@+id/buttonEditar"
+                    android:layout_toStartOf="@+id/buttonEditar"
+                    android:background="@android:color/transparent"
+                    android:text="Excluir"
+                    android:textColor="#276bea" />
+
+                <Button
+                    android:id="@+id/buttonEditar"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@android:color/transparent"
+                    android:text="Editar"
+                    android:textColor="#276bea" />-->
+
+                <TextView
+                    android:id="@+id/line1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text line 1"
+                    android:visibility="invisible" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </FrameLayout>
