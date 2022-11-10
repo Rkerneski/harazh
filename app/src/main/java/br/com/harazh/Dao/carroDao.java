@@ -114,10 +114,11 @@ public class carroDao {
     }
 
     @SuppressLint("Range")
-    public carroModel GetPalavra(String placa){
+    public carroModel GetPalavra(String palavra){
 
 
-        Cursor cursor =  databaseUtil.GetConexaoDataBase().rawQuery("SELECT * FROM carro WHERE placa= '" + placa + "'",null);
+        Cursor cursor =  databaseUtil.GetConexaoDataBase().rawQuery("SELECT ALL * FROM carro WHERE modelo= '" + palavra + "' " +
+                " or placa= '" + palavra + "' or ano= '" + palavra + "' ",null);
 
         cursor.moveToFirst();
 
@@ -125,11 +126,46 @@ public class carroDao {
         carroModel carro =  new carroModel();
 
         carro.setId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("id"))));
+        carro.setModelo(cursor.getString(cursor.getColumnIndex("modelo")));
         carro.setPlaca(cursor.getString(cursor.getColumnIndex("placa")));
         carro.setAno(cursor.getString(cursor.getColumnIndex("ano")));
 
         //RETORNANDO A PESSOA
         return carro;
+
+    }
+
+    @SuppressLint("Range")
+    public List<carroModel> Pesquisa(String palavra){
+
+        ArrayList listar = new ArrayList();
+
+        Cursor cursor =  databaseUtil.GetConexaoDataBase().rawQuery("SELECT ALL * FROM carro WHERE modelo= '" + palavra + "' " +
+                " or placa= '" + palavra + "' or ano= '" + palavra + "' ",null);
+
+        cursor.moveToFirst();
+
+        carroModel carro;
+
+        while (!cursor.isAfterLast()){
+
+            carro =  new carroModel();
+
+            //ADICIONANDO OS DADOS DA PESSOA
+            carro.setId(Integer.valueOf(cursor.getString(cursor.getColumnIndex("id"))));
+            carro.setModelo(cursor.getString(cursor.getColumnIndex("modelo")));
+            carro.setPlaca(cursor.getString(cursor.getColumnIndex("placa")));
+            carro.setAno(cursor.getString(cursor.getColumnIndex("ano")));
+
+            //ADICIONANDO UMA PESSOA NA LISTA
+            listar.add(carro);
+
+            //VAI PARA O PRÓXIMO REGISTRO
+            cursor.moveToNext();
+        }
+
+        //RETORNANDO A LISTA DE PESSOAS
+        return listar;
 
     }
 }

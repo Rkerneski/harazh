@@ -7,6 +7,18 @@ public class carroModel {
     private String placa;
     private String ano;
 
+    public carroModel(){
+
+    }
+
+    public carroModel(String modelo, String placa, String ano){
+
+        this.modelo = modelo;
+        this.placa = placa;
+        this.ano = ano;
+
+    }
+
     public Integer getId() {
         return id;
     }
