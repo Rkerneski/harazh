@@ -16,13 +16,6 @@ public class array_tela_inicial extends ArrayAdapter<carroModel> {
     private ArrayList<carroModel> lista;
     private Context context;
 
-
-    /*public array_tela_inicial(Context context, ArrayList<carroModel> carroModel) {
-        super(context, 0, carroModel);
-        this.context = context;
-        this.lista = lista;
-    }*/
-
     public array_tela_inicial(Context context, ArrayList<carroModel> lista) {
         super(context,0, lista);
         this.context = context;

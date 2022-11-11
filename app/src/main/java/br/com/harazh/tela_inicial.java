@@ -35,14 +35,8 @@ public class tela_inicial extends AppCompatActivity {
     ImageButton btn_close;
     ImageButton btn_search;
     ListView lista;
-    ListView lista2;
     Handler handler = new Handler();
     EditText txt_pesquisar;
-    EditText txt_modelo_aux;
-    EditText modelo;
-    EditText txt_placa_aux;
-    EditText txt_ano_aux;
-    Boolean campo_pesquisar;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,17 +45,13 @@ public class tela_inicial extends AppCompatActivity {
         setContentView(R.layout.activity_tela_inicial);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        listarCarros = (ListView)findViewById(R.id.lista);
-        btn_close = (ImageButton)findViewById(R.id.btn_close);
-        btn_search = (ImageButton)findViewById(R.id.btn_search);
-        lista = (ListView)findViewById(R.id.lista);
-        lista2 = (ListView)findViewById(R.id.lista2);
-        txt_pesquisar = (EditText)findViewById(R.id.txt_pesquisar);
-        txt_modelo_aux = (EditText)findViewById(R.id.txt_modelo_aux);
-        txt_placa_aux = (EditText)findViewById(R.id.txt_placa_aux);
-        txt_ano_aux = (EditText)findViewById(R.id.txt_ano_aux);
+        listarCarros = (ListView) findViewById(R.id.lista);
+        btn_close = (ImageButton) findViewById(R.id.btn_close);
+        btn_search = (ImageButton) findViewById(R.id.btn_search);
+        lista = (ListView) findViewById(R.id.lista);
+        txt_pesquisar = (EditText) findViewById(R.id.txt_pesquisar);
 
-        //this.lista_de_carros();
+        lista_de_carros();
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +65,14 @@ public class tela_inicial extends AppCompatActivity {
 
                     }
                 }, 200);
-                pesquisar();
+
+                    pesquisar();
+
+
+
+
             }
         });
-
 
 
         btn_close.setOnClickListener(new View.OnClickListener() {
@@ -94,12 +88,31 @@ public class tela_inicial extends AppCompatActivity {
                     }
                 }, 200);
 
-                apagar_teclado();
+                txt_pesquisar.setText("");
+                lista_de_carros();
 
-                lista.setVisibility(View.VISIBLE);
-                lista2.setVisibility(View.INVISIBLE);
             }
         });
+
+
+        txt_pesquisar.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_ENTER:
+                            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(txt_pesquisar.getWindowToken(), 0);
+                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                            pesquisar();
+
+                            return true;
+                    }
+                }
+                return false;
+            }
+        });
+
 
         txt_pesquisar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,7 +122,7 @@ public class tela_inicial extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() == 0){
+                if (charSequence.length() == 0) {
 
                     lista_de_carros();
                     apagar_teclado();
@@ -127,9 +140,7 @@ public class tela_inicial extends AppCompatActivity {
         });
     }
 
-    public void apagar_teclado(){
-        /*InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);*/
+    public void apagar_teclado() {
 
         txt_pesquisar.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -143,7 +154,6 @@ public class tela_inicial extends AppCompatActivity {
                             pesquisar();
 
                             return true;
-
                     }
                 }
                 return false;
@@ -153,60 +163,48 @@ public class tela_inicial extends AppCompatActivity {
     }
 
 
-    public void pesquisar(){
+    public void pesquisar() {
 
-        try{
-            /*carroModel carroModel = new carroDao(getApplicationContext()).Pesquisa(txt_pesquisar.getText().toString());
-            txt_modelo_aux.setText(carroModel.getModelo());
-            txt_placa_aux.setText(carroModel.getPlaca());
-            txt_ano_aux.setText(carroModel.getAno());*/
+        carroDao carroDao = new carroDao(this);
 
-            if(txt_pesquisar.getText().equals("") || txt_pesquisar.getText() == null){
+        List<carroModel> carros = carroDao.Pesquisa(txt_pesquisar.getText().toString().toLowerCase());
+        listarCarros.setAdapter(new card_adapter(this, carros));
 
-            }
-            else {
-                carroDao carroDao = new carroDao(this);
 
-                List<carroModel> carros = carroDao.Pesquisa(txt_pesquisar.getText().toString());
-                listarCarros.setAdapter(new card_adapter(this, carros));
-
-                if (carros.size() == 0) {
-                    this.lista_de_carros();
-                    return;
-                }
-            }
-
-            //pesquisa_no_banco();
-
-            //APAGA O TECLADO QUANDO PESQUISAR
-            InputMethodManager inputMethodManager =  (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-
+        if (carros.size() == 0) {
+            //carroDao carroDao2 = new carroDao(this);
+            //List<carroModel> carro = carroDao2.Pesquisa(aux_search);
+            //listarCarros.setAdapter(new card_adapter(this, carro));
+            this.lista_de_carros();
+            Toast.makeText(getApplicationContext(), "Pesquisa não encontrada", Toast.LENGTH_LONG).show();
             return;
-        }catch (Exception e){
-            lista.setVisibility(View.INVISIBLE);
-            Toast.makeText(getApplicationContext(),"Pesquisa não encontrada",Toast.LENGTH_LONG).show();
-            InputMethodManager inputMethodManager =  (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
+
+
+        //pesquisa_no_banco();
+
+        //APAGA O TECLADO QUANDO PESQUISAR
+        InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+
+
     }
 
-    public void  pesquisa_no_banco(){
+    public void pesquisa_no_banco() {
         ArrayList<carroModel> carroModel = new ArrayList<carroModel>();
 
-        carroModel.add(new carroModel(txt_modelo_aux.getText().toString(), txt_placa_aux.getText().toString(),txt_ano_aux.getText().toString()));
+        //carroModel.add(new carroModel(txt_modelo_aux.getText().toString(), txt_placa_aux.getText().toString(),txt_ano_aux.getText().toString()));
 
-        array_tela_inicial array_tela_inicial = new array_tela_inicial(getApplication(),carroModel);
-        lista2.setAdapter(array_tela_inicial);
+        array_tela_inicial array_tela_inicial = new array_tela_inicial(getApplication(), carroModel);
+        //lista2.setAdapter(array_tela_inicial);
     }
 
-    protected void lista_de_carros(){
+    protected void lista_de_carros() {
 
         carroDao carroDao = new carroDao(this);
 
         List<carroModel> carros = carroDao.Listar();
         listarCarros.setAdapter(new card_adapter(this, carros));
-
 
 
     }
@@ -225,7 +223,7 @@ public class tela_inicial extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-         if (id == R.id.cadastrar_carro) {
+        if (id == R.id.cadastrar_carro) {
             startActivity(new Intent(this, tela_cadastro.class));
             finish();
         }

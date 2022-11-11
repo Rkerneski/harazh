@@ -33,6 +33,7 @@ android:descendantFocusability="beforeDescendants">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="#03A9F4"
         android:text="Text line 3"
         android:textSize="16sp" />
 
@@ -41,6 +42,7 @@ android:descendantFocusability="beforeDescendants">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textColor="#03A9F4"
         android:text="Text line 4"
         android:textSize="16sp" />
 
