@@ -1,10 +1,8 @@
 package br.com.harazh.Uteis;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
-
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.harazh.Dao.carroDao;
-import br.com.harazh.MainActivity;
 import br.com.harazh.Model.carroModel;
 import br.com.harazh.R;
-import br.com.harazh.tela_cadastro;
+import br.com.harazh.tela_gerenciar;
 import br.com.harazh.tela_inicial;
-import br.com.harazh.tela_opcoes;
 
 public class card_adapter extends BaseAdapter {
 
     private static LayoutInflater layoutInflater = null;
     private tela_inicial tela_inicial;
     List<carroModel> carroModels = new ArrayList();
+    Handler handler = new Handler();
+    public static String static_placa;
 
     carroDao carroDao;
 
@@ -38,6 +36,11 @@ public class card_adapter extends BaseAdapter {
         this.tela_inicial = tela_inicial;
         layoutInflater = (LayoutInflater)this.tela_inicial.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.carroDao = new carroDao(tela_inicial);
+    }
+
+    public card_adapter(){
+
+
     }
 
     public void AtualizarLista() {
@@ -60,7 +63,7 @@ public class card_adapter extends BaseAdapter {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         final View  viewLinhaLista= layoutInflater.inflate(R.layout.activity_card_adapter, null);
-        TextView textViewId = (TextView)viewLinhaLista.findViewById(R.id.line1);
+        TextView textViewId = (TextView)viewLinhaLista.findViewById(R.id.id);
         TextView textViewModelo = (TextView)viewLinhaLista.findViewById(R.id.line2);
         TextView textViewPlaca = (TextView)viewLinhaLista.findViewById(R.id.line3);
         TextView textViewAno = (TextView)viewLinhaLista.findViewById(R.id.line4);
@@ -75,15 +78,23 @@ public class card_adapter extends BaseAdapter {
         viewLinhaLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(tela_inicial, "Registro excluido com sucesso!",Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(tela_inicial, tela_opcoes.class);
+                viewLinhaLista.setVisibility(View.INVISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewLinhaLista.setVisibility(View.VISIBLE);
+
+                    }
+                }, 100);
+
+
+                Intent intent = new Intent(tela_inicial, tela_gerenciar.class);
+                //comando para pegar a string da placa e enviar para a tela_opçoes
+                //intent.putExtra("placa", carroModels.get(position).getPlaca());
+                static_placa = carroModels.get(position).getPlaca();
                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(tela_inicial.getApplicationContext(), R.anim.fade_in,R.anim.mover_direita);
                 ActivityCompat.startActivity(tela_inicial, intent, activityOptionsCompat.toBundle());
-
-
-
-
 
             }
         });

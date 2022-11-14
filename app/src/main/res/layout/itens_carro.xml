@@ -24,27 +24,30 @@ android:descendantFocusability="beforeDescendants">
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Text line 2"
-        android:textColor="#03A9F4"
         android:textAlignment="center"
-        android:textSize="16sp" />
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txt_placa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="#03A9F4"
         android:text="Text line 3"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txt_ano"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="#03A9F4"
         android:text="Text line 4"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"/>
 
 
     <RelativeLayout
@@ -52,7 +55,49 @@ android:descendantFocusability="beforeDescendants">
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_Excluir"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/btn_Editar"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="29dp"
+            android:layout_marginRight="29dp"
+            android:layout_toStartOf="@+id/btn_Editar"
+            android:layout_toLeftOf="@+id/btn_Editar"
+            android:background="@android:color/transparent"
+            android:text="Excluir"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btn_Editar"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="70dp"
+            android:layout_marginRight="85dp"
+            android:background="@android:color/transparent"
+            android:text="Editar"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txt_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text line 1"
+            android:visibility="invisible" />
 
 
     </RelativeLayout>

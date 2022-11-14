@@ -11,14 +11,6 @@ public class carroModel {
 
     }
 
-    public carroModel(String modelo, String placa, String ano){
-
-        this.modelo = modelo;
-        this.placa = placa;
-        this.ano = ano;
-
-    }
-
     public Integer getId() {
         return id;
     }

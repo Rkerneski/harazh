@@ -14,8 +14,20 @@
         android:theme="@style/Theme.Harazh"
         tools:targetApi="31">
         <activity
-            android:name=".tela_opcoes"
-            android:exported="false" />
+            android:name=".tela_manutencao"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".tela_editar"
+            android:exported="false"
+            android:label="Editar" />
+        <activity
+            android:name=".tela_gerenciar"
+            android:exported="false"
+            android:label="Gerenciar" />
         <activity
             android:name=".tela_cadastro"
             android:exported="false"

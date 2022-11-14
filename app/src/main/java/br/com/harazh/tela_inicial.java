@@ -2,6 +2,8 @@ package br.com.harazh;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -67,10 +69,6 @@ public class tela_inicial extends AppCompatActivity {
                 }, 200);
 
                     pesquisar();
-
-
-
-
             }
         });
 
@@ -224,8 +222,10 @@ public class tela_inicial extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.cadastrar_carro) {
-            startActivity(new Intent(this, tela_cadastro.class));
-            finish();
+
+            Intent intent = new Intent(this, tela_cadastro.class);
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.fade_in,R.anim.mover_direita);
+            ActivityCompat.startActivity(this, intent, activityOptionsCompat.toBundle());
         }
 
         return super.onOptionsItemSelected(item);

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +27,7 @@ public class tela_cadastro extends AppCompatActivity {
     EditText txt_placa;
     EditText txt_ano;
     Button btn_salvar;
+    Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +36,10 @@ public class tela_cadastro extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        txt_modelo = (EditText) findViewById(R.id.txt_modelo);
-        txt_placa = (EditText) findViewById(R.id.txt_placa);
-        txt_ano = (EditText) findViewById(R.id.txt_ano);
-        btn_salvar = (Button) findViewById(R.id.btn_salvar);
+        txt_modelo = (EditText)findViewById(R.id.txt_modelo);
+        txt_placa = (EditText)findViewById(R.id.txt_placa);
+        txt_ano = (EditText)findViewById(R.id.txt_ano);
+        btn_salvar = (Button)findViewById(R.id.btn_salvar);
 
         txt_modelo.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -68,12 +71,18 @@ public class tela_cadastro extends AppCompatActivity {
         btn_salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //salvar();
+
+                btn_salvar.setVisibility(View.INVISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_salvar.setVisibility(View.VISIBLE);
+
+                    }
+                }, 200);
                 comparador();
             }
         });
-
-
     }
 
     public void comparador(){
@@ -113,11 +122,37 @@ public class tela_cadastro extends AppCompatActivity {
         }
         else{
             carroModel carroModel = new carroModel();
-            carroModel.setModelo(this.txt_modelo.getText().toString().trim());
-            carroModel.setPlaca(this.txt_placa.getText().toString().trim());
-            carroModel.setAno(this.txt_ano.getText().toString().trim());
+            carroModel.setModelo(this.txt_modelo.getText().toString().trim().toLowerCase());
+            carroModel.setPlaca(this.txt_placa.getText().toString().trim().toLowerCase());
+            carroModel.setAno(this.txt_ano.getText().toString().trim().toLowerCase());
             new carroDao(this).Salvar(carroModel);
-            mensagem.Alert(this, this.getString(R.string.registro_salvo));
+
+            AlertDialog.Builder confirma = new AlertDialog.Builder(tela_cadastro.this);
+            confirma.setTitle("Carro Cadastrado!");
+            confirma.setMessage("Deseja salvar mais um carro?");
+
+            confirma.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    txt_modelo.requestFocus();
+                    txt_modelo.setText("");
+                    txt_modelo.setHint("Modelo");
+                    txt_ano.setText("");
+                    txt_ano.setHint("Ano");
+                    txt_placa.setText("");
+                    txt_placa.setHint("Placa");
+                }
+            });
+
+            confirma.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(tela_cadastro.this, tela_inicial.class);
+                    startActivity(intent);
+                }
+            });
+            confirma.show();
+            //mensagem.Alert(this, this.getString(R.string.registro_salvo));
         }
     }
 
@@ -133,9 +168,9 @@ public class tela_cadastro extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         startActivity(new Intent(this, tela_inicial.class));
         finish();
+        overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);
 
         return true;
     }
-
 
 }

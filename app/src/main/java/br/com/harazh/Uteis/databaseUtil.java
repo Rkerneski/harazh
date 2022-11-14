@@ -26,12 +26,21 @@ public class databaseUtil extends SQLiteOpenHelper {
         stringBuilderCreateTable.append("        ano      TEXT    NOT NULL )                 ");
 
         db.execSQL(stringBuilderCreateTable.toString());
+
+        StringBuilder manutencao = new StringBuilder();
+        manutencao.append(" CREATE TABLE MANUTENCAO (");
+        manutencao.append("        id_manutencao             INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        manutencao.append("        FOREIGN KEY (id_carro)    REFERENCES CARRO (id),             ");
+        manutencao.append("        data                      TEXT    NOT NULL,                  ");
+        manutencao.append("        descricao                 TEXT    NOT NULL,                  ");
+        manutencao.append("        valor                     FLOAT        NOT NULL )            ");
+        db.execSQL(manutencao.toString());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS ALUNO");
-        db.execSQL("DROP TABLE IF EXISTS tb_login");
+        db.execSQL("DROP TABLE IF EXISTS CARRO");
+        db.execSQL("DROP TABLE IF EXISTS MANUTENCAO");
         onCreate(db);
     }
 
