@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import br.com.harazh.Dao.carroDao;
 import br.com.harazh.Model.carroModel;
@@ -39,11 +38,13 @@ public class tela_cadastro extends AppCompatActivity {
         txt_modelo = (EditText)findViewById(R.id.txt_modelo);
         txt_placa = (EditText)findViewById(R.id.txt_placa);
         txt_ano = (EditText)findViewById(R.id.txt_ano);
-        btn_salvar = (Button)findViewById(R.id.btn_salvar);
+        btn_salvar = (Button)findViewById(R.id.btn_editar);
 
         txt_modelo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                txt_placa.setHint("Placa");
+                txt_ano.setHint("Ano");
                 txt_modelo.setHint("");
 
                 return false;
@@ -53,6 +54,8 @@ public class tela_cadastro extends AppCompatActivity {
         txt_placa.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                txt_modelo.setHint("Modelo");
+                txt_ano.setHint("Ano");
                 txt_placa.setHint("");
 
                 return false;
@@ -62,6 +65,8 @@ public class tela_cadastro extends AppCompatActivity {
         txt_ano.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                txt_modelo.setHint("Modelo");
+                txt_placa.setHint("Placa");
                 txt_ano.setHint("");
 
                 return false;
@@ -128,6 +133,7 @@ public class tela_cadastro extends AppCompatActivity {
             new carroDao(this).Salvar(carroModel);
 
             AlertDialog.Builder confirma = new AlertDialog.Builder(tela_cadastro.this);
+            confirma.setCancelable(false);
             confirma.setTitle("Carro Cadastrado!");
             confirma.setMessage("Deseja salvar mais um carro?");
 

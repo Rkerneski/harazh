@@ -28,6 +28,7 @@ public class card_adapter extends BaseAdapter {
     List<carroModel> carroModels = new ArrayList();
     Handler handler = new Handler();
     public static String static_placa;
+    public static int static_idCarro;
 
     carroDao carroDao;
 
@@ -93,6 +94,7 @@ public class card_adapter extends BaseAdapter {
                 //comando para pegar a string da placa e enviar para a tela_opçoes
                 //intent.putExtra("placa", carroModels.get(position).getPlaca());
                 static_placa = carroModels.get(position).getPlaca();
+                static_idCarro = carroModels.get(position).getId();
                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(tela_inicial.getApplicationContext(), R.anim.fade_in,R.anim.mover_direita);
                 ActivityCompat.startActivity(tela_inicial, intent, activityOptionsCompat.toBundle());
 

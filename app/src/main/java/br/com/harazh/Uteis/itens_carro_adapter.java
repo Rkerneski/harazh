@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.harazh.Dao.carroDao;
+import br.com.harazh.Dao.manutencaoDao;
 import br.com.harazh.Model.carroModel;
 import br.com.harazh.R;
 import br.com.harazh.tela_cadastro;
@@ -34,14 +36,17 @@ public class itens_carro_adapter extends BaseAdapter {
     private tela_gerenciar tela_gerenciar;
     List<carroModel> carroModels = new ArrayList();
     Handler handler = new Handler();
+    public static String aux_nome_carro, aux_placa, aux_ano;
 
     carroDao carroDao;
+    manutencaoDao manutencaoDao;
 
     public itens_carro_adapter(tela_gerenciar tela_gerenciar, List<carroModel> carroModels) {
         this.carroModels = carroModels;
         this.tela_gerenciar = tela_gerenciar;
         layoutInflater = (LayoutInflater)this.tela_gerenciar.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.carroDao = new carroDao(tela_gerenciar);
+        this.manutencaoDao = new manutencaoDao(tela_gerenciar);
     }
 
     public void AtualizarLista() {
@@ -68,12 +73,16 @@ public class itens_carro_adapter extends BaseAdapter {
         TextView textViewModelo = (TextView)viewLinhaLista.findViewById(R.id.txt_modelo);
         TextView textViewPlaca = (TextView)viewLinhaLista.findViewById(R.id.txt_placa);
         TextView textViewAno = (TextView)viewLinhaLista.findViewById(R.id.txt_ano);
-        Button buttonExcluir = (Button)viewLinhaLista.findViewById(R.id.btn_Excluir);
-        Button buttonEditar = (Button)viewLinhaLista.findViewById(R.id.btn_Editar);
+        ImageButton buttonExcluir = (ImageButton)viewLinhaLista.findViewById(R.id.btn_Excluir);
+        ImageButton buttonEditar = (ImageButton)viewLinhaLista.findViewById(R.id.btn_Editar);
         textViewId.setText(String.valueOf(carroModels.get(position).getId()));
         textViewModelo.setText("Modelo: " + carroModels.get(position).getModelo());
         textViewPlaca.setText("Placa: " + carroModels.get(position).getPlaca());
         textViewAno.setText("Ano: " + carroModels.get(position).getAno());
+
+        aux_nome_carro = carroModels.get(position).getModelo();
+        aux_placa = carroModels.get(position).getPlaca();
+        aux_ano = carroModels.get(position).getAno();
 
 
        buttonExcluir.setOnClickListener(new View.OnClickListener() {
@@ -92,12 +101,13 @@ public class itens_carro_adapter extends BaseAdapter {
                AlertDialog.Builder confirma = new AlertDialog.Builder(itens_carro_adapter.layoutInflater.getContext());
                confirma.setTitle("Aviso");
                confirma.setMessage("Deseja excluir este carro?");
+               confirma.setCancelable(false);
 
                confirma.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                       manutencaoDao.Excluir(carroModels.get(position).getId());
                        carroDao.Excluir(carroModels.get(position).getId());
 
                        Intent intent = new Intent(tela_gerenciar, tela_inicial.class);

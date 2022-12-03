@@ -23,12 +23,12 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.harazh.Dao.carroDao;
+import br.com.harazh.Dao.manutencaoDao;
 import br.com.harazh.Model.carroModel;
-import br.com.harazh.Uteis.array_tela_inicial;
+import br.com.harazh.Model.manutencaoModel;
 import br.com.harazh.Uteis.card_adapter;
 
 public class tela_inicial extends AppCompatActivity {
@@ -52,6 +52,7 @@ public class tela_inicial extends AppCompatActivity {
         btn_search = (ImageButton) findViewById(R.id.btn_search);
         lista = (ListView) findViewById(R.id.lista);
         txt_pesquisar = (EditText) findViewById(R.id.txt_pesquisar);
+
 
         lista_de_carros();
 
@@ -163,47 +164,51 @@ public class tela_inicial extends AppCompatActivity {
 
     public void pesquisar() {
 
-        carroDao carroDao = new carroDao(this);
+        try{
+            carroDao carroDao = new carroDao(this);
 
-        List<carroModel> carros = carroDao.Pesquisa(txt_pesquisar.getText().toString().toLowerCase());
-        listarCarros.setAdapter(new card_adapter(this, carros));
+            List<carroModel> carros = carroDao.Pesquisa(txt_pesquisar.getText().toString().toLowerCase());
+            listarCarros.setAdapter(new card_adapter(this, carros));
 
 
-        if (carros.size() == 0) {
-            //carroDao carroDao2 = new carroDao(this);
-            //List<carroModel> carro = carroDao2.Pesquisa(aux_search);
-            //listarCarros.setAdapter(new card_adapter(this, carro));
-            this.lista_de_carros();
-            Toast.makeText(getApplicationContext(), "Pesquisa não encontrada", Toast.LENGTH_LONG).show();
-            return;
+            if (carros.size() == 0) {
+                //carroDao carroDao2 = new carroDao(this);
+                //List<carroModel> carro = carroDao2.Pesquisa(aux_search);
+                //listarCarros.setAdapter(new card_adapter(this, carro));
+                this.lista_de_carros();
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+                Toast.makeText(getApplicationContext(), "Pesquisa não encontrada", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
+            //pesquisa_no_banco();
+
+            //APAGA O TECLADO QUANDO PESQUISAR
+            InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+
+        }catch (Exception e){
+
+                Toast.makeText(getApplicationContext(), "Pesquisa não encontrada", Toast.LENGTH_LONG).show();
+                return;
+
         }
 
 
-        //pesquisa_no_banco();
-
-        //APAGA O TECLADO QUANDO PESQUISAR
-        InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-
-
-    }
-
-    public void pesquisa_no_banco() {
-        ArrayList<carroModel> carroModel = new ArrayList<carroModel>();
-
-        //carroModel.add(new carroModel(txt_modelo_aux.getText().toString(), txt_placa_aux.getText().toString(),txt_ano_aux.getText().toString()));
-
-        array_tela_inicial array_tela_inicial = new array_tela_inicial(getApplication(), carroModel);
-        //lista2.setAdapter(array_tela_inicial);
     }
 
     protected void lista_de_carros() {
 
-        carroDao carroDao = new carroDao(this);
+        try{
+            carroDao carroDao = new carroDao(this);
 
-        List<carroModel> carros = carroDao.Listar();
-        listarCarros.setAdapter(new card_adapter(this, carros));
+            List<carroModel> carros = carroDao.Listar();
+            listarCarros.setAdapter(new card_adapter(this, carros));
+        }catch (Exception e){
 
+        }
 
     }
 
@@ -229,6 +234,11 @@ public class tela_inicial extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed() {
+        finishAffinity();
+
     }
 
 }

@@ -1,70 +1,96 @@
 package br.com.harazh;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import java.text.NumberFormat;
 import java.util.Calendar;
 
+import br.com.harazh.Dao.carroDao;
 import br.com.harazh.Dao.manutencaoDao;
+import br.com.harazh.Model.carroModel;
 import br.com.harazh.Model.manutencaoModel;
-import br.com.harazh.Uteis.card_adapter;
 import br.com.harazh.Uteis.mensagem;
 
-public class tela_manutencao extends AppCompatActivity {
+public class tela_editar_manutencao extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
     Button btn_data;
-    EditText txt_valor;
-    EditText txt_descricao;
-    Button btn_salvar;
-    card_adapter card_adapter = new card_adapter();
     EditText txt_titulo;
+    EditText txt_descricao;
+    EditText txt_valor;
+    Button btn_editar;
+    EditText txt_id;
+    EditText txt_id_carro;
+    Handler handler = new Handler();
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_manutencao);
-
+        setContentView(R.layout.activity_tela_editar_manutencao);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initDatePicker();
         btn_data = (Button) findViewById(R.id.btn_data);
-        btn_data.setText(getTodaysDate());
-        txt_valor = (EditText) findViewById(R.id.txt_valor);
+        txt_titulo = (EditText) findViewById(R.id.txt_titulo);
         txt_descricao = (EditText) findViewById(R.id.txt_descricao);
-        btn_salvar = (Button) findViewById(R.id.btn_salvar);
-        txt_titulo = (EditText)findViewById(R.id.txt_titulo);
+        txt_valor = (EditText) findViewById(R.id.txt_valor);
+        btn_editar = (Button) findViewById(R.id.btn_editar);
+        txt_id = (EditText) findViewById(R.id.txt_id);
+        txt_id_carro = (EditText) findViewById(R.id.txt_id_carro);
 
-        //txt_valor.addTextChangedListener(new MascaraMonetaria(txt_valor));
+        CarregarValores();
 
-        btn_salvar.setOnClickListener(new View.OnClickListener() {
+        btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //txt_descricao.setText(txt_valor.getText().replace(0, 2, "R$").toString());
-                 salvar();
+
+                btn_editar.setVisibility(View.INVISIBLE);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_editar.setVisibility(View.VISIBLE);
+
+                    }
+                }, 200);
+                salvar();
             }
         });
-
     }
 
-    private void salvar() {
+    public void CarregarValores() {
+
+        //PEGA O ID PESSOA QUE FOI PASSADO COMO PARAMETRO ENTRE AS TELAS
+        Bundle extra =  this.getIntent().getExtras();
+        int id = extra.getInt("id");
+
+        manutencaoModel manutencao = new manutencaoDao(this).GetManutencao(id);
+
+        this.txt_id.setText(String.valueOf(manutencao.getId_manutencao()));
+        this.txt_id_carro.setText(String.valueOf(manutencao.getId_carro()));
+        this.btn_data.setText(manutencao.getData());
+        this.txt_valor.setText(String.format("%.2f",Double.parseDouble(manutencao.getValor())).replaceAll(",","."));
+        this.txt_descricao.setText(manutencao.getDescricao());
+        this.txt_titulo.setText(manutencao.getTitulo());
+    }
+
+    public void salvar() {
         if(txt_titulo.getText().toString().trim().equals("")){
             mensagem.Alert(this, this.getString(R.string.titulo_obrigatorio));
         }
@@ -75,41 +101,31 @@ public class tela_manutencao extends AppCompatActivity {
         else if(txt_valor.getText().toString().trim().equals("")){
             mensagem.Alert(this, this.getString(R.string.valor_obrigatorio));
             this.txt_valor.requestFocus();
-        }
-        else{
+        } else {
+
             manutencaoModel manutencaoModel = new manutencaoModel();
-            manutencaoModel.setId_carro(card_adapter.static_idCarro);
+            manutencaoModel.setId_manutencao(Integer.valueOf(Integer.parseInt(txt_id.getText().toString())));
+            manutencaoModel.setId_carro(Integer.valueOf(Integer.parseInt(txt_id_carro.getText().toString())));
             manutencaoModel.setData(this.btn_data.getText().toString().trim().toLowerCase());
-            //manutencaoModel.setValor("05,00");
-            //manutencaoModel.setValor(txt_valor.getText().replace(0, 2, "R$").toString().replaceAll(",", "."));
             manutencaoModel.setValor(txt_valor.getText().toString());
             manutencaoModel.setDescricao(this.txt_descricao.getText().toString().trim().toLowerCase());
             manutencaoModel.setTitulo(this.txt_titulo.getText().toString().trim().toLowerCase());
-            new manutencaoDao(this).Salvar(manutencaoModel);
+            new manutencaoDao(this).Editar(manutencaoModel);
 
-            AlertDialog.Builder confirma = new AlertDialog.Builder(tela_manutencao.this);
-            confirma.setTitle("Manutenção Cadastrada!");
-            confirma.setMessage("Deseja salvar mais uma manutenção?");
-            confirma.setCancelable(false);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setCancelable(false);
+            alertDialog.setMessage("Manutenção alterada!");
 
-            confirma.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    txt_descricao.setText("");
-                    txt_valor.setText("");
-                    txt_titulo.setText("");
-                }
-            });
-
-            confirma.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(tela_manutencao.this, tela_gerenciar.class);
+            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent intent = new Intent(getApplicationContext(), tela_gerenciar_servicos.class);
                     startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);
+
                 }
             });
-            confirma.show();
-            //mensagem.Alert(this, this.getString(R.string.registro_salvo));
+            alertDialog.show();
         }
     }
 
@@ -140,7 +156,7 @@ public class tela_manutencao extends AppCompatActivity {
         int mes = cal.get(Calendar.MONTH);
         int ano = cal.get(Calendar.YEAR);
 
-        int style = AlertDialog.THEME_HOLO_LIGHT;
+        int style = android.app.AlertDialog.THEME_HOLO_LIGHT;
 
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, ano, mes, dia);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
@@ -185,70 +201,9 @@ public class tela_manutencao extends AppCompatActivity {
     }
     //final data
 
-    //para mascara valor
-    private class MascaraMonetaria implements TextWatcher {
-
-        final EditText campo;
-
-        public MascaraMonetaria(EditText campo) {
-            super();
-            this.campo = campo;
-        }
-
-        private boolean isUpdating = false;
-
-        // Pega a formatacao do sistema, se for brasil R$ se EUA US$
-
-        private NumberFormat nf = NumberFormat.getCurrencyInstance();
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int after) {
-
-            // Evita que o método seja executado varias vezes.
-
-            // Se tirar ele entre em loop
-
-            if (isUpdating) {
-                isUpdating = false;
-                return;
-            }
-
-            isUpdating = true;
-
-            String str = s.toString();
-            str = str.replaceAll("[^\\d]", "");
-
-            try {
-                // Transformamos o número que está escrito no EditText em
-
-                // monetário.
-
-                str = nf.format(Double.parseDouble(str) / 100);
-
-                campo.setText(str);
-
-                campo.setSelection(campo.getText().length());
-
-            } catch (NumberFormatException e) {
-                s = "";
-            }
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Não utilizado
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            // Não utilizado
-        }
-
-    }
-    //final mascara valor
 
     public void onBackPressed() {
-        startActivity(new Intent(this, tela_gerenciar.class));
+        startActivity(new Intent(this, tela_gerenciar_servicos.class));
         finish();
         overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);
 
@@ -256,11 +211,10 @@ public class tela_manutencao extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        startActivity(new Intent(this, tela_gerenciar.class));
+        startActivity(new Intent(this, tela_gerenciar_servicos.class));
         finish();
         overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);
 
         return true;
     }
-
 }

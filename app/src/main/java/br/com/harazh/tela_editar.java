@@ -29,6 +29,7 @@ public class tela_editar extends AppCompatActivity {
     Button btn_editar;
     Handler handler = new Handler();
     card_adapter card_adapter;
+    String aux_placa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,29 +66,34 @@ public class tela_editar extends AppCompatActivity {
 
     public void comparador(){
 
-        try{
-            carroModel carroModel = new carroDao(this).GetPalavra(txt_placa.getText().toString());
-            //Toast.makeText(this,"Placa já cadastrada",Toast.LENGTH_LONG).show();
-
-            mensagem.Alert(this, "A placa " + txt_placa.getText() + " "+ this.getString(R.string.placa_cadastrada));
-            this.txt_placa.requestFocus();
-
-            //APAGA O TECLADO QUANDO PESQUISAR
-            InputMethodManager inputMethodManager =  (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-
-            return;
-        }catch (Exception e){
+        if(aux_placa.equals(txt_placa.getText().toString())){
             salvar();
+        }else {
 
-            InputMethodManager inputMethodManager =  (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+            try {
+                carroModel carroModel = new carroDao(this).GetPalavra(txt_placa.getText().toString());
+                //Toast.makeText(this,"Placa já cadastrada",Toast.LENGTH_LONG).show();
+
+                mensagem.Alert(this, "A placa " + txt_placa.getText() + " " + this.getString(R.string.placa_cadastrada));
+                this.txt_placa.requestFocus();
+
+                //APAGA O TECLADO QUANDO PESQUISAR
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+
+                return;
+            } catch (Exception e) {
+                salvar();
+
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+            }
         }
     }
 
     public void CarregarValores() {
 
-        //PEGA O ID PESSOA QUE FOI PASSADO COMO PARAMETRO ENTRE AS TELAS
+        //PEGA O ID carro QUE FOI PASSADO COMO PARAMETRO ENTRE AS TELAS
         Bundle extra =  this.getIntent().getExtras();
         int id = extra.getInt("id");
 
@@ -97,6 +103,8 @@ public class tela_editar extends AppCompatActivity {
         this.txt_modelo.setText(carroModel.getModelo());
         this.txt_placa.setText(carroModel.getPlaca());
         this.txt_ano.setText(carroModel.getAno());
+
+        this.aux_placa = this.txt_placa.getText().toString();
     }
 
     public void salvar() {
@@ -113,12 +121,13 @@ public class tela_editar extends AppCompatActivity {
 
             carroModel carroModel = new carroModel();
             carroModel.setId(Integer.valueOf(Integer.parseInt(txt_id.getText().toString())));
-            carroModel.setModelo(txt_modelo.getText().toString().trim());
-            carroModel.setPlaca(txt_placa.getText().toString().trim());
-            carroModel.setAno(this.txt_ano.getText().toString().trim());
+            carroModel.setModelo(txt_modelo.getText().toString().trim().toLowerCase());
+            carroModel.setPlaca(txt_placa.getText().toString().trim().toLowerCase());
+            carroModel.setAno(this.txt_ano.getText().toString().trim().toLowerCase());
             new carroDao(this).Editar(carroModel);
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setCancelable(false);
             alertDialog.setMessage("Carro alterado!");
 
             alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -136,7 +145,6 @@ public class tela_editar extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        card_adapter.static_placa = txt_placa.getText().toString();
         startActivity(new Intent(this, tela_gerenciar.class));
         finish();
         overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);
@@ -145,7 +153,6 @@ public class tela_editar extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        card_adapter.static_placa = txt_placa.getText().toString();
         startActivity(new Intent(this, tela_gerenciar.class));
         finish();
         overridePendingTransition(R.anim.mover_esquerda, R.anim.fade_out);

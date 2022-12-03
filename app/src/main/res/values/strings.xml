@@ -15,4 +15,7 @@
     <string name="ano_obrigatorio">Ano é de preenchimento obrigatório!</string>
     <string name="placa_cadastrada">já foi cadastrada!</string>
     <string name="registro_salvo">Carro cadastrado!</string>
+    <string name="desc_obrigatorio">Descrição é de preenchimento obrigatório!</string>
+    <string name="valor_obrigatorio">Valor é de preenchimento obrigatório!</string>
+    <string name="titulo_obrigatorio">Título é de preenchimento obrigatório!</string>
 </resources>

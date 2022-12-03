@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".tela_gerenciar_servicos">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="410dp"
+        android:layout_height="62dp"
+        android:background="@drawable/botao_redondo"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="95dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/botao_redondo"
+            app:srcCompat="@drawable/logoinicial" />
+
+        <Button
+            android:id="@+id/txt_dados"
+            android:layout_width="239dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="-20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/botao_redondo"
+            android:text="TextView"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lista"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:divider="@null"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_total"
+        app:layout_constraintVertical_bias="0.818" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
+        android:background="#03A9F4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_verTodos"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/btn_anoAtual"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/iconeveranoatual"
+        android:visibility="visible"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/btn_anoAtualSemFoco"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible"
+        android:background="@drawable/iconeveranoatuasemfoco"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/btn_verTodos"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/iconevertodos"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/btn_PesquisarSemFoco"
+        app:layout_constraintStart_toEndOf="@+id/btn_anoAtual"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/btn_verTodosSemFoco"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/iconevertodossemfoco"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/btn_PesquisarSemFoco"
+        app:layout_constraintStart_toEndOf="@+id/btn_anoAtual"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/btn_PesquisarSemFoco"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/iconepesquisargeralsemfoco"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageButton
+        android:id="@+id/btn_Pesquisar"
+        android:layout_width="98dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/iconepesquisargeral"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/ano"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_anoAtual"
+        app:layout_constraintEnd_toEndOf="@+id/btn_anoAtual"
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="@+id/btn_anoAtual"
+        app:layout_constraintTop_toTopOf="@+id/btn_anoAtual"
+        app:layout_constraintVertical_bias="0.769" />
+
+    <TextView
+        android:id="@+id/avisoListaAno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+    <TextView
+        android:id="@+id/txt_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#F44336"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avisoListaAno" />
+
+    <ImageButton
+        android:id="@+id/btn_voltar"
+        android:layout_width="42dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@+id/btn_PesquisarSemFoco"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/voltar" />
+
+    <ImageButton
+        android:id="@+id/btn_procurar"
+        android:layout_width="42dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/btn_PesquisarSemFoco"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/search" />
+
+    <ImageButton
+        android:id="@+id/btn_fechar"
+        android:layout_width="42dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btn_voltar"
+        app:layout_constraintEnd_toEndOf="@+id/btn_PesquisarSemFoco"
+        app:layout_constraintTop_toBottomOf="@+id/btn_procurar"
+        app:srcCompat="@drawable/close" />
+
+    <EditText
+        android:id="@+id/txt_pesquisar"
+        android:layout_width="305dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="30dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:hint="Pesquisar"
+        android:visibility="invisible"
+        android:inputType="textPersonName"
+        android:textColorHint="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/view1"
+        app:layout_constraintEnd_toStartOf="@+id/btn_fechar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

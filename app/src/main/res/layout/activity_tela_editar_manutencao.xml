@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".tela_manutencao">
+        tools:context=".tela_editar_manutencao">
 
         <Button
             android:id="@+id/btn_data"
@@ -54,12 +54,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_salvar"
+            android:id="@+id/btn_editar"
             android:layout_width="123dp"
             android:layout_height="63dp"
             android:layout_marginTop="544dp"
             android:background="@drawable/botao_redondo"
-            android:text="Salvar"
+            android:text="Editar"
             android:textAllCaps="false"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -125,6 +125,38 @@
             app:layout_constraintHorizontal_bias="0.208"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/txt_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_editar" />
+
+        <EditText
+            android:id="@+id/txt_id_carro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_editar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

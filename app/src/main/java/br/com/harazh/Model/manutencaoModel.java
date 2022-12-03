@@ -5,8 +5,9 @@ public class manutencaoModel {
     private Integer id_manutencao;
     private Integer id_carro;
     private String data;
-    private Float valor;
+    private String valor;
     private String descricao;
+    private String titulo;
 
     public Integer getId_manutencao() {
         return id_manutencao;
@@ -32,11 +33,11 @@ public class manutencaoModel {
         this.data = data;
     }
 
-    public Float getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Float valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 
@@ -46,5 +47,13 @@ public class manutencaoModel {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
